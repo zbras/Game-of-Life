@@ -10,22 +10,25 @@ class Board():
     def __init__(self, screen_width, screen_height):
 
         #   Programmable settings
-        self.RED_MAX, self.GREEN_MAX, self.BLUE_MAX = 255, 0, 100
-        self.RED_MIN, self.GREEN_MIN, self.BLUE_MIN = 0, 0, 20
         self.CELL_MINIMUM = 20
         self.BORDER_SIZE = 1
-        self.REGEN_PERCENT = .005
         self.TIME_BETWEEN_SEQUENCES = .1
         self.REGEN_BOARD_WHEN_EMPTY = True
+        self.REGEN_PERCENT_OF_POPULATION = .005
+        self.BRIGHTNESS_MIN = 255
+        self.BRIGHTNESS_MAX = 255
+        self.RED_MAX, self.GREEN_MAX, self.BLUE_MAX = 255, 0, 100
+        self.RED_MIN, self.GREEN_MIN, self.BLUE_MIN = 0, 0, 20
 
         #   Static settings
-        self.GRID_UPDATE_ITERATIONS = 0
+        self.GRID_UPDATE_SEQUENCES = 0
         self.OFFSCREEN_CHILDREN_REMOVED = 0
         self.OFFSETS = [(-1, -1), (0, -1), (1, -1), (-1, 0), (1, 0), (-1, 1), (0, 1), (1, 1)]
-        self.X_CELLS, self.Y_CELLS = ceil((screen_width / screen_height)) * self.CELL_MINIMUM, ceil((screen_height / screen_width)) * self.CELL_MINIMUM
+        self.X_CELLS = ceil((screen_width / screen_height)) * self.CELL_MINIMUM
+        self.Y_CELLS = ceil((screen_height / screen_width)) * self.CELL_MINIMUM
         self.CELL_WIDTH = (screen_width) / self.X_CELLS
         self.CELL_HEIGHT = (screen_height) / self.Y_CELLS
-        self.RANDOM_CELL_REGEN_COUNT = ceil(self.REGEN_PERCENT * (self.X_CELLS * self.Y_CELLS))
+        self.RANDOM_CELL_REGEN_COUNT = ceil(self.REGEN_PERCENT_OF_POPULATION * (self.X_CELLS * self.Y_CELLS))
 
         self.generate_new_board_state()
 
@@ -39,10 +42,10 @@ class Board():
 
     def get_neighbors(self, x, y):
 
-        neighboring_candidates = {(x + x_add, y + y_add) for x_add, y_add in self.OFFSETS}
-        alive_neighbors = {(pos[0], pos[1]) for pos in neighboring_candidates if pos in self.CELLS}
+        neighboring_cells = {(x + x_add, y + y_add) for x_add, y_add in self.OFFSETS}
+        alive_neighbors = {(pos[0], pos[1]) for pos in neighboring_cells if pos in self.CELLS}
 
-        return alive_neighbors, neighboring_candidates.difference(alive_neighbors)
+        return alive_neighbors, neighboring_cells.difference(alive_neighbors)
 
     def add_random_alive_cells(self):
 
@@ -95,15 +98,16 @@ class Board():
             for (x, y) in added_cells:
                 self.CELLS.discard((x, y))
 
-        self.GRID_UPDATE_ITERATIONS += 1
+        self.GRID_UPDATE_SEQUENCES += 1
         self.remove_offscreen_tiles()
 
 def update_screen(screen, b) -> None:
 
     for (x, y) in b.CELLS:
+        brightness = randint(b.BRIGHTNESS_MIN, b.BRIGHTNESS_MAX) / 255
         pygame.draw.rect(
             screen,
-            (randint(b.RED_MIN, b.RED_MAX), randint(b.GREEN_MIN, b.GREEN_MAX), randint(b.BLUE_MIN, b.BLUE_MAX)),
+            (randint(ceil(b.RED_MIN * brightness), ceil(b.RED_MAX * brightness)), randint(ceil(b.GREEN_MIN * brightness), ceil(b.GREEN_MAX * brightness)), randint(ceil(b.BLUE_MIN * brightness), ceil(b.BLUE_MAX * brightness))),
             (x * b.CELL_WIDTH + b.BORDER_SIZE, y * b.CELL_HEIGHT + b.BORDER_SIZE, b.CELL_WIDTH - b.BORDER_SIZE, b.CELL_HEIGHT - b.BORDER_SIZE)
         )
 
@@ -123,7 +127,7 @@ def main():
 
     while True:
         if pygame.QUIT in [e.type for e in pygame.event.get()]:
-            print(f'Removed {board.OFFSCREEN_CHILDREN_REMOVED} alive offscreen nodes over {board.GRID_UPDATE_ITERATIONS} sequences.')
+            print(f'Removed {board.OFFSCREEN_CHILDREN_REMOVED} alive offscreen nodes over {board.GRID_UPDATE_SEQUENCES} sequences.')
             sys.exit(0)
 
         screen.fill((0, 0, 0))
