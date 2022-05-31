@@ -16,6 +16,7 @@ class Board():
         self.BORDER_SIZE = 1
         self.REGEN_PERCENT = .005
         self.TIME_BETWEEN_SEQUENCES = .1
+        self.REGEN_BOARD_WHEN_EMPTY = True
 
         #   Static settings
         self.GRID_UPDATE_ITERATIONS = 0
@@ -69,7 +70,7 @@ class Board():
 
     def update_grid(self):
 
-        if len(self.CELLS) < self.RANDOM_CELL_REGEN_COUNT:
+        if self.REGEN_BOARD_WHEN_EMPTY == True and len(self.CELLS) < self.RANDOM_CELL_REGEN_COUNT:
             self.generate_new_board_state()
 
         added_cells = self.add_random_alive_cells()
