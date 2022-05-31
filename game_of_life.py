@@ -10,8 +10,8 @@ class Board():
     def __init__(self, screen_width, screen_height):
 
         #   Programmable settings
-        self.RED_MAX, self.GREEN_MAX, self.BLUE_MAX = 255, 255, 255
-        self.RED_MIN, self.GREEN_MIN, self.BLUE_MIN = 255, 255, 255
+        self.RED_MAX, self.GREEN_MAX, self.BLUE_MAX = 255, 0, 100
+        self.RED_MIN, self.GREEN_MIN, self.BLUE_MIN = 0, 0, 20
         self.CELL_MINIMUM = 20
         self.BORDER_SIZE = 1
         self.REGEN_PERCENT = .005
