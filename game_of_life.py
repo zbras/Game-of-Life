@@ -31,7 +31,11 @@ class Board():
 
         self.generate_new_board_state()
 
-    def generate_new_board_state(self):
+    def generate_new_board_state(self) -> None:
+        '''
+        Generates a new board state of living cells, randomly assigning locations for the cells.
+        The population of the new board state can have up to a maximum of 1/5 of the total amount of living and dead cells.
+        '''
 
         self.CELLS = set()
 
@@ -39,26 +43,44 @@ class Board():
             x, y = randint(0, self.X_CELLS), randint(0, self.Y_CELLS)
             self.CELLS.add((x, y))
 
-    def get_neighbors(self, x, y):
+    def get_neighbors(self, x, y) -> dict:
+        '''
+        Given a living cell's coordinates, this function looks at the cell's surrounding neighbors and categorizes them as either alive or dead.
+
+        Returns:
+            dict() of alive neighbors
+            dict() of dead neighbors
+        '''
 
         neighboring_cells = {(x + x_add, y + y_add) for x_add, y_add in self.OFFSETS}
         alive_neighbors = {(pos[0], pos[1]) for pos in neighboring_cells if pos in self.CELLS}
 
         return alive_neighbors, neighboring_cells.difference(alive_neighbors)
 
-    def add_random_alive_cells(self):
+    def regenerate_cells(self) -> set:
+        '''
+        Regenerates a user-defined number of cells in random locations.
+        This function is utilized to extend the lifetime of the entire population, and prevent static pockets of cells from regenerating the entire population when it is necessary to do so.
 
-        added_cells = set()
+        Returns:
+            set() of cells that have been regenerated
+        '''
+
+        regenerated_cells = set()
 
         for i in range(self.RANDOM_CELL_REGEN_COUNT):
             x = randint(0, self.X_CELLS)
             y = randint(0, self.Y_CELLS)
             self.CELLS.add((x, y))
-            added_cells.add((x, y))
+            regenerated_cells.add((x, y))
 
-        return added_cells
+        return regenerated_cells
 
-    def remove_offscreen_tiles(self):
+    def remove_offscreen_cells(self) -> None:
+        '''
+        Removes cells which are located two cells away from the edge of the screen.
+        This function is used to conserve memory and prevent gliders from generating pockets of cells offscreen.
+        '''
 
         cell_container = deepcopy(self.CELLS)
 
@@ -70,12 +92,15 @@ class Board():
                 self.CELLS.discard((x, y))
                 self.OFFSCREEN_CHILDREN_REMOVED += 1
 
-    def update_grid(self):
+    def update_grid(self) -> None:
+        '''
+        Updates the cell locations after resetting the board (if necessary), regenerating cells, applying the rules of John Conway's Game of Life, and removing offscreen cells.
+        '''
 
         if self.REGEN_BOARD_WHEN_EMPTY == True and len(self.CELLS) < self.RANDOM_CELL_REGEN_COUNT:
             self.generate_new_board_state()
 
-        added_cells = self.add_random_alive_cells()
+        regenerated_cells = self.regenerate_cells()
         new_cells = deepcopy(self.CELLS)
         births = defaultdict(int)
 
@@ -93,13 +118,18 @@ class Board():
 
         self.CELLS = deepcopy(new_cells)
 
-        for (x, y) in added_cells:
+        for (x, y) in regenerated_cells:
             self.CELLS.discard((x, y))
 
         self.GRID_UPDATE_SEQUENCES += 1
-        self.remove_offscreen_tiles()
+        self.remove_offscreen_cells()
 
 def update_screen(screen, b) -> None:
+    '''
+    Redraws and refreshes the screen.
+    '''
+
+    screen.fill((0, 0, 0))
 
     for (x, y) in b.CELLS:
         brightness = randint(b.BRIGHTNESS_MIN, b.BRIGHTNESS_MAX) / 255
@@ -128,7 +158,6 @@ def main():
             print(f'Removed {board.OFFSCREEN_CHILDREN_REMOVED} alive offscreen nodes over {board.GRID_UPDATE_SEQUENCES} sequences.')
             sys.exit(0)
 
-        screen.fill((0, 0, 0))
         update_screen(screen, board)
         board.update_grid()
         pygame.display.flip()
