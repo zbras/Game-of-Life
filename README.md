@@ -1,6 +1,6 @@
 # Game of Life
 
-###Concept program implementing John Conway's Game of Life, a zero-player game which models population evolution.
+######Concept program implementing John Conway's Game of Life, a zero-player game which models population evolution.
 
 Given an intial board state - determined at random - the program will simulate population growth and decay according to the rules prescribed by the game. This program deviates from the rules of the original game in three customizable ways:
 > - If a cell is generated offscreen, it will be deleted so as not to generate more cells and consume memory.
