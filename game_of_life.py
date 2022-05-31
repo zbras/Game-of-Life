@@ -93,9 +93,8 @@ class Board():
 
         self.CELLS = deepcopy(new_cells)
 
-        if 'added_cells' in locals():
-            for (x, y) in added_cells:
-                self.CELLS.discard((x, y))
+        for (x, y) in added_cells:
+            self.CELLS.discard((x, y))
 
         self.GRID_UPDATE_SEQUENCES += 1
         self.remove_offscreen_tiles()
