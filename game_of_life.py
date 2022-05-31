@@ -100,7 +100,11 @@ class Board():
 def update_screen(screen, b) -> None:
 
     for (x, y) in b.CELLS:
-        pygame.draw.rect(screen, (randint(b.RED_MIN, b.RED_MAX), randint(b.GREEN_MIN, b.GREEN_MAX), randint(b.BLUE_MIN, b.BLUE_MAX)), (x * b.CELL_WIDTH + b.BORDER_SIZE, y * b.CELL_HEIGHT + b.BORDER_SIZE, b.CELL_WIDTH - b.BORDER_SIZE, b.CELL_HEIGHT - b.BORDER_SIZE))
+        pygame.draw.rect(
+            screen,
+            (randint(b.RED_MIN, b.RED_MAX), randint(b.GREEN_MIN, b.GREEN_MAX), randint(b.BLUE_MIN, b.BLUE_MAX)),
+            (x * b.CELL_WIDTH + b.BORDER_SIZE, y * b.CELL_HEIGHT + b.BORDER_SIZE, b.CELL_WIDTH - b.BORDER_SIZE, b.CELL_HEIGHT - b.BORDER_SIZE)
+        )
 
 def main():
 
