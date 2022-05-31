@@ -15,8 +15,7 @@ class Board():
         self.TIME_BETWEEN_SEQUENCES = .1
         self.REGEN_BOARD_WHEN_EMPTY = True
         self.REGEN_PERCENT_OF_POPULATION = .005
-        self.BRIGHTNESS_MIN = 255
-        self.BRIGHTNESS_MAX = 255
+        self.BRIGHTNESS_MIN, self.BRIGHTNESS_MAX = 255, 255
         self.RED_MAX, self.GREEN_MAX, self.BLUE_MAX = 255, 0, 100
         self.RED_MIN, self.GREEN_MIN, self.BLUE_MIN = 0, 0, 20
 
