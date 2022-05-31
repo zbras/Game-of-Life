@@ -131,5 +131,5 @@ def main():
         pygame.display.flip()
         time.sleep(board.TIME_BETWEEN_SEQUENCES)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
