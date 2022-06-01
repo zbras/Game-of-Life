@@ -128,7 +128,6 @@ class Board(State):
 
         self.remove_offscreen_cells()
         self.render_sequence()
-        self.game.reset_keys()
 
         pygame.time.delay(ceil(self.time_between_sequences * 1000))
 
