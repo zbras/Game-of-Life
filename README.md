@@ -9,4 +9,4 @@ Given an intial board state - determined at random - the program will simulate p
 
 The game can be configured for specific color and brightness ranges, a minimum number of cells along the lower resolution, cell border size, time between sequences, whether or not to create a fresh population when the total population reaches a minimum, and a random cell regeneration percentage of the total population of dead and alive cells.
 
-At the title screen, left click or press **Enter** to begin the simulation. Pressing **Escape** at any time will close the program. You may toggle the simulation by pressing the **Left mouse button**, and open the options menu with **Tab**. Please note that the program does not support multiple-monitor setups and will default to the primary monitor's resolution.
+At the title screen, left click or press ***Enter*** to begin the simulation. Pressing ***Escape*** at any time will close the program. You may toggle the simulation by pressing the ***Left mouse button***, and open the options menu with ***Tab***. Please note that the program does not support multiple-monitor setups and will default to the primary monitor's resolution.
