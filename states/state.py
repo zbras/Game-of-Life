@@ -1,36 +1,36 @@
 class State():
 
-	def __init__(self, game):
+    def __init__(self, game):
 
-		self.game = game
-		self.prev_state = None
+        self.game = game
+        self.prev_state = None
 
-	def update(self, delta_time, actions):
+    def update(self, delta_time, actions):
 
-		pass
+        pass
 
-	def render(self, surface):
+    def render(self, surface):
 
-		pass
+        pass
 
-	def process_mouse_down(self, position):
+    def process_mouse_down(self, position):
 
-		pass
+        pass
 
-	def process_mouse_up(self, position):
+    def process_mouse_up(self, position):
 
-		pass
+        pass
 
-	def enter_state(self):
+    def enter_state(self):
 
-		if len(self.game.state_stack) > 1:
-			self.prev_state = self.game.state_stack[-1]
+        if len(self.game.state_stack) > 1:
+            self.prev_state = self.game.state_stack[-1]
 
-		self.game.state_stack.append(self)
+        self.game.state_stack.append(self)
 
-	def exit_state(self):
+    def exit_state(self):
 
-		self.game.state_stack.pop()
+        self.game.state_stack.pop()
 
 if __name__ == '__main__':
     quit()
