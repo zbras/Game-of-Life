@@ -121,8 +121,9 @@ class Game():
 
     def save_config(self):
 
-        with open('settings/config.json', 'w') as f:
-            json.dump(self.board.options, f, indent = 4)
+        if self.board:
+            with open('settings/config.json', 'w') as f:
+                json.dump(self.board.options, f, indent = 4)
 
     def exit_game(self):
 
