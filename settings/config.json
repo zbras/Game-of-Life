@@ -1,13 +1,13 @@
 {
     "cell_minimum": {
         "alias": "Cell minimum",
-        "val": 10,
+        "val": 67,
         "min": 10,
         "max": 250
     },
     "border_size": {
         "alias": "Border size",
-        "val": 0,
+        "val": 8,
         "min": 0,
         "max": 20
     },
@@ -25,13 +25,13 @@
     },
     "regen_percent_of_population": {
         "alias": "Regeneration percent",
-        "val": 10,
+        "val": 5,
         "min": 0,
         "max": 10
     },
     "a_min": {
         "alias": "Brightness minimum",
-        "val": 0,
+        "val": 137,
         "min": 0,
         "max": 255
     },
@@ -67,13 +67,13 @@
     },
     "b_min": {
         "alias": "Blue minimum",
-        "val": 76,
+        "val": 6,
         "min": 0,
         "max": 255
     },
     "b_max": {
         "alias": "Blue maximum",
-        "val": 255,
+        "val": 92,
         "min": 0,
         "max": 255
     }
