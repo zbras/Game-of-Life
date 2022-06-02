@@ -93,7 +93,7 @@ class Board(State):
 
         if self.paused: return
 
-        if actions['start']:
+        if actions['tab']:
             new_state = PauseMenu(self.game)
             new_state.enter_state()
 

@@ -35,7 +35,7 @@ class PauseMenu(State):
 
     def update(self, delta_time, actions):
 
-        if actions['start']:
+        if actions['tab']:
             self.exit_state()
             self.game.board.generate_new_board_state()
 
