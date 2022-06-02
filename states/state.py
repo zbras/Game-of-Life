@@ -13,6 +13,14 @@ class State():
 
 		pass
 
+	def process_mouse_down(self, position):
+
+		pass
+
+	def process_mouse_up(self, position):
+
+		pass
+
 	def enter_state(self):
 
 		if len(self.game.state_stack) > 1:

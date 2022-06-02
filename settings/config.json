@@ -1,0 +1,80 @@
+{
+    "cell_minimum": {
+        "alias": "Cell minimum",
+        "val": 10,
+        "min": 10,
+        "max": 250
+    },
+    "border_size": {
+        "alias": "Border size",
+        "val": 0,
+        "min": 0,
+        "max": 20
+    },
+    "time_between_sequences": {
+        "alias": "Sequence elapse",
+        "val": 1,
+        "min": 0,
+        "max": 10
+    },
+    "regen_board_when_empty": {
+        "alias": "Regenerate board",
+        "val": 1,
+        "min": 0,
+        "max": 1
+    },
+    "regen_percent_of_population": {
+        "alias": "Regeneration percent",
+        "val": 10,
+        "min": 0,
+        "max": 10
+    },
+    "a_min": {
+        "alias": "Brightness minimum",
+        "val": 0,
+        "min": 0,
+        "max": 255
+    },
+    "a_max": {
+        "alias": "Brightness maximum",
+        "val": 255,
+        "min": 0,
+        "max": 255
+    },
+    "r_min": {
+        "alias": "Red minimum",
+        "val": 0,
+        "min": 0,
+        "max": 255
+    },
+    "r_max": {
+        "alias": "Red maximum",
+        "val": 255,
+        "min": 0,
+        "max": 255
+    },
+    "g_min": {
+        "alias": "Green minimum",
+        "val": 0,
+        "min": 0,
+        "max": 255
+    },
+    "g_max": {
+        "alias": "Green maximum",
+        "val": 0,
+        "min": 0,
+        "max": 255
+    },
+    "b_min": {
+        "alias": "Blue minimum",
+        "val": 76,
+        "min": 0,
+        "max": 255
+    },
+    "b_max": {
+        "alias": "Blue maximum",
+        "val": 255,
+        "min": 0,
+        "max": 255
+    }
+}

@@ -1,4 +1,4 @@
-import pygame, time
+import pygame
 from collections import defaultdict
 from copy import deepcopy
 from math import ceil, floor
@@ -12,24 +12,11 @@ class Board(State):
 
         State.__init__(self, game)
 
-        #   Programmable settings
-        self.cell_minimum = 20
-        self.border_size = 1
-        self.time_between_sequences = .1
-        self.regen_board_when_empty = True
-        self.regen_percent_of_population = .005
-        self.brightness_min, self.brightness_max = 255, 255
-        self.red_max, self.green_max, self.blue_max = 255, 0, 100
-        self.red_min, self.green_min, self.blue_min = 0, 0, 20
-
-        #   Static settings
         self.game = game
+        self.paused = False
+        self.options = self.game.load_config()
+        self.game.board = self
         self.offsets = [(-1, -1), (0, -1), (1, -1), (-1, 0), (1, 0), (-1, 1), (0, 1), (1, 1)]
-        self.x_cells = ceil((self.game.screen_width / self.game.screen_height)) * self.cell_minimum
-        self.y_cells = ceil((self.game.screen_height / self.game.screen_width)) * self.cell_minimum
-        self.cell_width = (self.game.screen_width) / self.x_cells
-        self.cell_height = (self.game.screen_height) / self.y_cells
-        self.random_cell_regen_count = ceil(self.regen_percent_of_population * (self.x_cells * self.y_cells))
 
         self.generate_new_board_state()
 
@@ -38,6 +25,12 @@ class Board(State):
         Generates a new board state of living cells, randomly assigning locations for the cells.
         The population of the new board state can have up to a maximum of 1/5 of the total amount of living and dead cells.
         '''
+
+        self.x_cells = ceil((self.game.screen_width / self.game.screen_height)) * self.options['cell_minimum']['val']
+        self.y_cells = ceil((self.game.screen_height / self.game.screen_width)) * self.options['cell_minimum']['val']
+        self.cell_width = (self.game.screen_width) / self.x_cells
+        self.cell_height = (self.game.screen_height) / self.y_cells
+        self.random_cell_regen_count = ceil((self.options['regen_percent_of_population']['val'] / 1000) * (self.x_cells * self.y_cells))
 
         self.cells = set()
 
@@ -98,11 +91,13 @@ class Board(State):
         Updates the cell locations after resetting the board (if necessary), regenerating cells, applying the rules of John Conway's Game of Life, and removing offscreen cells.
         '''
 
-        if actions['tab']:
+        if self.paused: return
+
+        if actions['start']:
             new_state = PauseMenu(self.game)
             new_state.enter_state()
 
-        if self.regen_board_when_empty == True and len(self.cells) < self.random_cell_regen_count:
+        if self.options['regen_board_when_empty']['val'] == True and len(self.cells) < self.random_cell_regen_count:
             self.generate_new_board_state()
 
         regenerated_cells = self.regenerate_cells()
@@ -127,24 +122,31 @@ class Board(State):
             self.cells.discard((x, y))
 
         self.remove_offscreen_cells()
-        self.render_sequence()
+        self.render(self.game.screen)
 
-        pygame.time.delay(ceil(self.time_between_sequences * 1000))
+        pygame.time.delay(ceil((self.options['time_between_sequences']['val'] / 10) * 1000))
 
-    def render_sequence(self):
+    def render(self, surface):
         '''
         Redraws and refreshes the screen.
         '''
 
-        self.game.screen.fill((0, 0, 0))
+        surface.fill((0, 0, 0))
 
         for (x, y) in self.cells:
-            brightness = randint(self.brightness_min, self.brightness_max) / 255
+            brightness = randint(self.options['a_min']['val'], self.options['a_max']['val']) / 255
             pygame.draw.rect(
-                self.game.screen,
-                (randint(ceil(self.red_min * brightness), ceil(self.red_max * brightness)), randint(ceil(self.green_min * brightness), ceil(self.green_max * brightness)), randint(ceil(self.blue_min * brightness), ceil(self.blue_max * brightness))),
-                (x * self.cell_width + self.border_size, y * self.cell_height + self.border_size, self.cell_width - self.border_size, self.cell_height - self.border_size)
+                surface,
+                (randint(ceil(self.options['r_min']['val'] * brightness), ceil(self.options['r_max']['val'] * brightness)), randint(ceil(self.options['g_min']['val'] * brightness), ceil(self.options['g_max']['val'] * brightness)), randint(ceil(self.options['b_min']['val'] * brightness), ceil(self.options['b_max']['val'] * brightness))),
+                (x * self.cell_width + self.options['border_size']['val'], y * self.cell_height + self.options['border_size']['val'], self.cell_width - self.options['border_size']['val'], self.cell_height - self.options['border_size']['val'])
             )
+
+    def process_mouse_down(self, position):
+        '''
+        Toggles the simulation on mouse down.
+        '''
+
+        self.paused = not self.paused
 
 if __name__ == '__main__':
     quit()
