@@ -20,10 +20,6 @@ class Game():
         self.surface = pygame.Surface((self.screen_width, self.screen_height))
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height), pygame.NOFRAME)
         self.actions = {
-            'left': False,
-            'right': False,
-            'up': False,
-            'down': False,
             'tab': False,
             'escape': False,
             'start': False
