@@ -91,37 +91,38 @@ class Board(State):
         Updates the cell locations after resetting the board (if necessary), regenerating cells, applying the rules of John Conway's Game of Life, and removing offscreen cells.
         '''
 
-        if self.paused: return
+        if not self.paused:
 
-        if actions['tab']:
-            new_state = PauseMenu(self.game)
-            new_state.enter_state()
+            if actions['tab']:
+                new_state = PauseMenu(self.game)
+                new_state.enter_state()
 
-        if self.options['regen_board_when_empty']['val'] == True and len(self.cells) < self.random_cell_regen_count:
-            self.generate_new_board_state()
+            if self.options['regen_board_when_empty']['val'] == True and len(self.cells) < self.random_cell_regen_count:
+                self.generate_new_board_state()
 
-        regenerated_cells = self.regenerate_cells()
-        new_cells = deepcopy(self.cells)
-        births = defaultdict(int)
+            regenerated_cells = self.regenerate_cells()
+            new_cells = deepcopy(self.cells)
+            births = defaultdict(int)
 
-        for (x, y) in self.cells:
-            alive_neighbors, dead_neighbors = self.get_neighbors(x, y)
+            for (x, y) in self.cells:
+                alive_neighbors, dead_neighbors = self.get_neighbors(x, y)
 
-            if len(alive_neighbors) not in [2, 3]:
-                new_cells.remove((x, y))
+                if len(alive_neighbors) not in [2, 3]:
+                    new_cells.remove((x, y))
 
-            for pos in dead_neighbors:
-                births[pos] += 1
+                for pos in dead_neighbors:
+                    births[pos] += 1
 
-        for pos, _ in filter(lambda e: e[1] == 3, births.items()):
-            new_cells.add((pos[0], pos[1]))
+            for pos, _ in filter(lambda e: e[1] == 3, births.items()):
+                new_cells.add((pos[0], pos[1]))
 
-        self.cells = deepcopy(new_cells)
+            self.cells = deepcopy(new_cells)
 
-        for (x, y) in regenerated_cells:
-            self.cells.discard((x, y))
+            for (x, y) in regenerated_cells:
+                self.cells.discard((x, y))
 
-        self.remove_offscreen_cells()
+            self.remove_offscreen_cells()
+
         self.render(self.game.screen)
 
         pygame.time.delay(ceil((self.options['time_between_sequences']['val'] / 10) * 1000))
