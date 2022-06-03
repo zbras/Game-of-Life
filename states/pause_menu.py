@@ -12,6 +12,7 @@ class PauseMenu(State):
 
         self.game = game
         self.sliders = []
+        self.game.board.pause_render = False
 
         x, y = self.game.screen_width - 170, 100
 
@@ -52,6 +53,7 @@ class PauseMenu(State):
     def exit_state(self):
 
         pygame.mouse.set_visible(False)
+        self.game.board.pause_update = False
 
         return super().exit_state()
 
