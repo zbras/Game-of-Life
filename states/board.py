@@ -13,7 +13,8 @@ class Board(State):
         State.__init__(self, game)
 
         self.game = game
-        self.paused = False
+        self.pause_update = False
+        self.pause_render = False
         self.options = self.game.load_config()
         self.game.board = self
         self.offsets = [(-1, -1), (0, -1), (1, -1), (-1, 0), (1, 0), (-1, 1), (0, 1), (1, 1)]
@@ -95,7 +96,7 @@ class Board(State):
             new_state = PauseMenu(self.game)
             new_state.enter_state()
 
-        if not self.paused:
+        if not self.pause_update:
 
             if self.options['regen_board_when_empty']['val'] == True and len(self.cells) < self.random_cell_regen_count:
                 self.generate_new_board_state()
@@ -132,22 +133,24 @@ class Board(State):
         Redraws and refreshes the screen.
         '''
 
-        surface.fill((0, 0, 0))
+        if not self.pause_render:
+            surface.fill((0, 0, 0))
 
-        for (x, y) in self.cells:
-            brightness = randint(self.options['a_min']['val'], self.options['a_max']['val']) / 255
-            pygame.draw.rect(
-                surface,
-                (randint(ceil(self.options['r_min']['val'] * brightness), ceil(self.options['r_max']['val'] * brightness)), randint(ceil(self.options['g_min']['val'] * brightness), ceil(self.options['g_max']['val'] * brightness)), randint(ceil(self.options['b_min']['val'] * brightness), ceil(self.options['b_max']['val'] * brightness))),
-                (x * self.cell_width + self.options['border_size']['val'], y * self.cell_height + self.options['border_size']['val'], self.cell_width - self.options['border_size']['val'], self.cell_height - self.options['border_size']['val'])
-            )
+            for (x, y) in self.cells:
+                brightness = randint(self.options['a_min']['val'], self.options['a_max']['val']) / 255
+                pygame.draw.rect(
+                    surface,
+                    (randint(ceil(self.options['r_min']['val'] * brightness), ceil(self.options['r_max']['val'] * brightness)), randint(ceil(self.options['g_min']['val'] * brightness), ceil(self.options['g_max']['val'] * brightness)), randint(ceil(self.options['b_min']['val'] * brightness), ceil(self.options['b_max']['val'] * brightness))),
+                    (x * self.cell_width + self.options['border_size']['val'], y * self.cell_height + self.options['border_size']['val'], self.cell_width - self.options['border_size']['val'], self.cell_height - self.options['border_size']['val'])
+                )
 
     def process_mouse_down(self, position):
         '''
         Toggles the simulation on mouse down.
         '''
 
-        self.paused = not self.paused
+        self.pause_render = not self.pause_render
+        self.pause_update = not self.pause_update
 
 if __name__ == '__main__':
     quit()
