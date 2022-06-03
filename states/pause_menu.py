@@ -20,8 +20,8 @@ class PauseMenu(State):
             self.sliders.append(
                 Slider(
                     self.game,
-                    self.game.board.options[option]['alias'],
                     option,
+                    self.game.board.options[option]['alias'],
                     self.game.board.options[option]['val'],
                     self.game.board.options[option]['min'],
                     self.game.board.options[option]['max'],
@@ -37,7 +37,6 @@ class PauseMenu(State):
 
         if actions['tab']:
             self.exit_state()
-            self.game.board.generate_new_board_state()
 
     def process_mouse_down(self, position):
 
@@ -59,10 +58,10 @@ class PauseMenu(State):
     def render(self, display):
 
         self.prev_state.render(self.game.screen)
-        self.background = pygame.Surface((200, self.game.screen_height))
-        self.background.set_alpha(20)
-        self.background.fill((255, 255, 255))
-        self.game.screen.blit(self.background, (self.game.screen_width - 200, 0))
+        self.background = pygame.Surface((self.game.screen_width, self.game.screen_height))
+        self.background.set_alpha(200)
+        self.background.fill((0, 0, 0))
+        self.game.screen.blit(self.background, (0, 0))
 
         self.game.draw_text(self.game.screen, '- Paused -', (255, 255, 255), self.game.screen_width / 2, self.game.screen_height / 2, 30)
 
