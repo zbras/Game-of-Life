@@ -25,13 +25,13 @@
     },
     "regen_percent_of_population": {
         "alias": "Regeneration percent",
-        "val": 1,
+        "val": 5,
         "min": 0,
         "max": 10
     },
     "a_min": {
         "alias": "Brightness minimum",
-        "val": 255,
+        "val": 0,
         "min": 0,
         "max": 255
     },
@@ -43,25 +43,25 @@
     },
     "r_min": {
         "alias": "Red minimum",
-        "val": 255,
+        "val": 0,
         "min": 0,
         "max": 255
     },
     "r_max": {
         "alias": "Red maximum",
-        "val": 255,
+        "val": 0,
         "min": 0,
         "max": 255
     },
     "g_min": {
         "alias": "Green minimum",
-        "val": 255,
+        "val": 0,
         "min": 0,
         "max": 255
     },
     "g_max": {
         "alias": "Green maximum",
-        "val": 255,
+        "val": 86,
         "min": 0,
         "max": 255
     },
