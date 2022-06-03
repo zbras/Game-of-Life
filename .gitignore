@@ -1,4 +1,4 @@
-*.gitattributes
+.gitattributes
 *.pyc
-*.gitignore
+.gitignore
 test.py
