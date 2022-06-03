@@ -29,10 +29,9 @@ class Board(State):
 
         self.x_cells = ceil((self.game.screen_width / self.game.screen_height)) * self.options['cell_minimum']['val']
         self.y_cells = ceil((self.game.screen_height / self.game.screen_width)) * self.options['cell_minimum']['val']
-        self.cell_width = (self.game.screen_width) / self.x_cells
-        self.cell_height = (self.game.screen_height) / self.y_cells
+        self.cell_width = (self.game.screen_width) / (self.x_cells)
+        self.cell_height = (self.game.screen_height) / (self.y_cells)
         self.random_cell_regen_count = ceil((self.options['regen_percent_of_population']['val'] / 1000) * (self.x_cells * self.y_cells))
-
         self.cells = set()
 
         for i in range(0, floor((self.x_cells * self.y_cells) / 5), 1):
@@ -141,7 +140,7 @@ class Board(State):
                 pygame.draw.rect(
                     surface,
                     (randint(ceil(self.options['r_min']['val'] * brightness), ceil(self.options['r_max']['val'] * brightness)), randint(ceil(self.options['g_min']['val'] * brightness), ceil(self.options['g_max']['val'] * brightness)), randint(ceil(self.options['b_min']['val'] * brightness), ceil(self.options['b_max']['val'] * brightness))),
-                    (x * self.cell_width + self.options['border_size']['val'], y * self.cell_height + self.options['border_size']['val'], self.cell_width - self.options['border_size']['val'], self.cell_height - self.options['border_size']['val'])
+                    (x * (self.cell_width + self.options['border_size']['val']), y * (self.cell_height + self.options['border_size']['val']), self.cell_width - self.options['border_size']['val'], self.cell_height - self.options['border_size']['val'])
                 )
 
     def process_mouse_down(self, position):
