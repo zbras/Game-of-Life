@@ -91,11 +91,11 @@ class Board(State):
         Updates the cell locations after resetting the board (if necessary), regenerating cells, applying the rules of John Conway's Game of Life, and removing offscreen cells.
         '''
 
-        if not self.paused:
+        if actions['tab']:
+            new_state = PauseMenu(self.game)
+            new_state.enter_state()
 
-            if actions['tab']:
-                new_state = PauseMenu(self.game)
-                new_state.enter_state()
+        if not self.paused:
 
             if self.options['regen_board_when_empty']['val'] == True and len(self.cells) < self.random_cell_regen_count:
                 self.generate_new_board_state()
